@@ -1,7 +1,65 @@
-import { Category } from "../types";
+import {
+  Collapse,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  FormControlLabel,
+  Radio,
+} from "@material-ui/core";
+import { useState } from "react";
+import { StarBorder, ExpandLess, ExpandMore } from "@material-ui/icons";
+import { makeStyles } from "@material-ui/core/styles";
+
+import { Category as CategoryType } from "../types";
+import styles from "./styles";
 
 interface Props {
-  category: Category;
+  category: CategoryType;
 }
 
-export default function Category() {}
+const useStyles = makeStyles(styles);
+
+export default function Category({ category }: Props) {
+  const classes = useStyles();
+
+  const { name, color, items } = category;
+
+  const [open, setOpen] = useState<boolean>(false);
+  const [value, setValue] = useState<boolean>(false);
+
+  const handleExpand = () => {
+    setOpen((prevState) => !prevState);
+  };
+
+  console.log({ value });
+
+  return (
+    <div className={classes.root}>
+      <div className={classes.category}>
+        <FormControlLabel
+          className={classes.formLabel}
+          control={
+            <Radio checked={value} onClick={() => setValue((prev) => !prev)} />
+          }
+          label={name}
+        />
+        {open ? (
+          <ExpandLess className={classes.expand} onClick={handleExpand} />
+        ) : (
+          <ExpandMore className={classes.expand} onClick={handleExpand} />
+        )}
+      </div>
+      <Collapse in={open} timeout="auto" unmountOnExit>
+        <List component="div" disablePadding>
+          <ListItem button>
+            <ListItemIcon>
+              <StarBorder />
+            </ListItemIcon>
+            <ListItemText primary="Starred" />
+          </ListItem>
+        </List>
+      </Collapse>
+    </div>
+  );
+}

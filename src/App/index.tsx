@@ -1,24 +1,23 @@
-import { makeStyles } from "@material-ui/core/styles";
-
-import {
-  ListItemIcon,
-  ListItemText,
-  ListItem,
-  InputBase,
-} from "@material-ui/core";
+import { Fab, InputBase, Divider } from "@material-ui/core";
 import { Add as AddIcon, Search as SearchIcon } from "@material-ui/icons";
 import styles from "./styles";
 import { useState } from "react";
+import { makeStyles } from "@material-ui/core";
 
 import traffic from "../assets/traffic.jpg";
 
 import CreateCategoryModal from "./CreateCategoryModal";
+
+import { Category as CategoryType } from "./types";
+
 import Category from "./Category";
 
 const useStyles = makeStyles(styles);
 
 export default function App() {
   const classes = useStyles();
+
+  const [categories, setCategories] = useState<Array<CategoryType>>([]);
 
   const [createCategoryModalStatus, setCreateCategoryModalStatus] =
     useState<boolean>(false);
@@ -49,13 +48,16 @@ export default function App() {
             <InputBase placeholder="Search in categories" />
           </div>
         </div>
-        <ListItem button onClick={openCreateCategoryModal}>
-          <ListItemIcon>
-            <AddIcon />
-          </ListItemIcon>
-          <ListItemText primary="New category" />
-        </ListItem>
         <Category category={{ name: "test", color: "pink" }}></Category>
+        <div className={classes.createButton}>
+          <Fab
+            color="primary"
+            aria-label="add"
+            onClick={openCreateCategoryModal}
+          >
+            <AddIcon />
+          </Fab>
+        </div>
       </div>
     </div>
   );

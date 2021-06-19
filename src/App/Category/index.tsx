@@ -1,12 +1,4 @@
-import {
-  Collapse,
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
-  FormControlLabel,
-  Radio,
-} from "@material-ui/core";
+import { Collapse, List, ListItem, ListItemIcon, ListItemText, FormControlLabel, Radio } from "@material-ui/core";
 import { useState } from "react";
 import { StarBorder, ExpandLess, ExpandMore } from "@material-ui/icons";
 import { makeStyles } from "@material-ui/core/styles";
@@ -22,7 +14,6 @@ const useStyles = makeStyles(styles);
 
 export default function Category({ category }: Props) {
   const classes = useStyles();
-
   const { name, color, items } = category;
 
   const [open, setOpen] = useState<boolean>(false);
@@ -32,23 +23,22 @@ export default function Category({ category }: Props) {
     setOpen((prevState) => !prevState);
   };
 
-  console.log({ value });
-
   return (
-    <div className={classes.root}>
+    <div>
       <div className={classes.category}>
         <FormControlLabel
           className={classes.formLabel}
-          control={
-            <Radio checked={value} onClick={() => setValue((prev) => !prev)} />
-          }
+          control={<Radio checked={value} onClick={() => setValue((prev) => !prev)} />}
           label={name}
         />
-        {open ? (
-          <ExpandLess className={classes.expand} onClick={handleExpand} />
-        ) : (
-          <ExpandMore className={classes.expand} onClick={handleExpand} />
-        )}
+        <div className={classes.colorExpandContainer}>
+          <div className={classes.colorSelected} style={{ backgroundColor: color }}></div>
+          {open ? (
+            <ExpandLess className={classes.expand} onClick={handleExpand} />
+          ) : (
+            <ExpandMore className={classes.expand} onClick={handleExpand} />
+          )}
+        </div>
       </div>
       <Collapse in={open} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>

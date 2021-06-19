@@ -1,4 +1,4 @@
-import { Fab, InputBase, Divider } from "@material-ui/core";
+import { Fab, InputBase } from "@material-ui/core";
 import { Add as AddIcon, Search as SearchIcon } from "@material-ui/icons";
 import styles from "./styles";
 import { useState } from "react";
@@ -18,9 +18,9 @@ export default function App() {
   const classes = useStyles();
 
   const [categories, setCategories] = useState<Array<CategoryType>>([]);
+  const [searchText, setSearchText] = useState<string>("");
 
-  const [createCategoryModalStatus, setCreateCategoryModalStatus] =
-    useState<boolean>(false);
+  const [createCategoryModalStatus, setCreateCategoryModalStatus] = useState<boolean>(false);
 
   const openCreateCategoryModal = () => {
     setCreateCategoryModalStatus(true);
@@ -30,14 +30,25 @@ export default function App() {
     setCreateCategoryModalStatus(false);
   };
 
+  const createCategory = (category: CategoryType) => {
+    setCategories((prevCategories) => [...prevCategories, category]);
+  };
+
+  const toDisplayCategories = categories.filter((category) =>
+    category.name.toLocaleLowerCase().includes(searchText.toLocaleLowerCase())
+  );
+
   return (
     <div className={classes.root}>
       <div className={classes.content}>
         <img src={traffic} alt="traffic" className={classes.image} />
-        <CreateCategoryModal
-          status={createCategoryModalStatus}
-          closeModal={closeCreateCategoryModal}
-        />
+        {createCategoryModalStatus && (
+          <CreateCategoryModal
+            status={createCategoryModalStatus}
+            closeModal={closeCreateCategoryModal}
+            createCategory={createCategory}
+          />
+        )}
       </div>
       <div className={classes.sideBar}>
         <div className={classes.searchContainer}>
@@ -45,16 +56,18 @@ export default function App() {
             <SearchIcon color="primary" />
           </div>
           <div className={classes.searchInput}>
-            <InputBase placeholder="Search in categories" />
+            <InputBase
+              placeholder="Search categories"
+              value={searchText}
+              onChange={(event) => setSearchText(event.target.value)}
+            />
           </div>
         </div>
-        <Category category={{ name: "test", color: "pink" }}></Category>
+        {toDisplayCategories.map((category) => (
+          <Category key={category.name} category={category} />
+        ))}
         <div className={classes.createButton}>
-          <Fab
-            color="primary"
-            aria-label="add"
-            onClick={openCreateCategoryModal}
-          >
+          <Fab color="primary" aria-label="add" onClick={openCreateCategoryModal}>
             <AddIcon />
           </Fab>
         </div>

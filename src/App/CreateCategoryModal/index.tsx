@@ -1,43 +1,55 @@
-import Button from "@material-ui/core/Button";
-import TextField from "@material-ui/core/TextField";
-import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
-import DialogTitle from "@material-ui/core/DialogTitle";
+import { useState } from "react";
+import { HexColorPicker } from "react-colorful";
+
+import { Button, TextField, Dialog, DialogActions, DialogContent, DialogTitle, makeStyles } from "@material-ui/core";
+
+import { Category } from "../types";
+import styles from "./styles";
 
 interface Props {
   status: boolean;
   closeModal: () => void;
+  createCategory: (category: Category) => void;
 }
 
-export default function CreateCategoryModal({ status, closeModal }: Props) {
+const useStyles = makeStyles(styles);
+
+const INITIAL_NAME = "";
+const INITIAL_COLOR = "#f00";
+
+export default function CreateCategoryModal({ status, closeModal, createCategory }: Props) {
+  const classes = useStyles();
+
+  const [name, setName] = useState<string>(INITIAL_NAME);
+  const [color, setColor] = useState<string>(INITIAL_COLOR);
+
+  const handleSubmit = () => {
+    if (!name) {
+      return;
+    }
+
+    createCategory({ name, color });
+    closeModal();
+  };
+
   return (
-    <Dialog
-      open={status}
-      onClose={closeModal}
-      aria-labelledby="form-dialog-title"
-    >
+    <Dialog open={status} onClose={closeModal} aria-labelledby="form-dialog-title">
       <DialogTitle id="form-dialog-title">Create new category</DialogTitle>
-      <DialogContent>
-        <DialogContentText>
-          To subscribe to this website, please enter your email address here. We
-          will send updates occasionally.
-        </DialogContentText>
+      <DialogContent className={classes.dialogContent}>
         <TextField
-          autoFocus
-          margin="dense"
-          id="name"
-          label="Email Address"
-          type="email"
-          fullWidth
+          required
+          id="standard-required"
+          label="Name"
+          value={name}
+          onChange={(event) => setName(event.target.value)}
         />
+        <HexColorPicker color={color} onChange={setColor} className={classes.colorPicker} />
       </DialogContent>
       <DialogActions>
         <Button onClick={closeModal} color="primary">
           Cancel
         </Button>
-        <Button onClick={closeModal} color="primary">
+        <Button onClick={handleSubmit} color="primary">
           Create
         </Button>
       </DialogActions>

@@ -21,6 +21,7 @@ const styles = (theme: Theme) =>
     },
     searchContainer: {
       display: "flex",
+      paddingRight: theme.spacing(2),
       marginBottom: theme.spacing(2),
     },
     searchInput: {

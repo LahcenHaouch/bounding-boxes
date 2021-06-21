@@ -35,10 +35,10 @@ export default function App() {
     setCategories((prevCategories) => [...prevCategories, category]);
   };
   const selectCategory = (id: string) => setSelectedCategoryId(id);
-  const createItem = (categoryId: string, item: Item) => {
+  const createItem = (item: Item) => {
     setCategories((prevCategories) =>
       prevCategories.map((category) => {
-        if (category.id === categoryId) {
+        if (category.id === selectedCategoryId) {
           if (!category.items) {
             category.items = [item];
           } else {
@@ -59,8 +59,6 @@ export default function App() {
 
   const selectedCategory = categories.find(({ id }) => id === selectedCategoryId);
 
-  console.log(selectedCategory?.items);
-
   return (
     <div className={classes.root}>
       <div className={classes.content}>
@@ -76,7 +74,7 @@ export default function App() {
       <div className={classes.sideBar}>
         <div className={classes.searchContainer}>
           <div>
-            <SearchIcon color="primary" />
+            <SearchIcon style={{ color: "lightgrey" }} />
           </div>
           <div className={classes.searchInput}>
             <InputBase

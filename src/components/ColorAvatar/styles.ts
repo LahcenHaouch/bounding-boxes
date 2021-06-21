@@ -6,6 +6,10 @@ const styles = (theme: Theme) =>
       borderRadius: "50%",
       height: "20px",
       width: "20px",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      fontSize: "10px",
     },
   });
 

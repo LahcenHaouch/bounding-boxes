@@ -6,7 +6,7 @@ import { Category, Item } from "../types";
 
 interface Props {
   category?: Category;
-  createItem: (categoryId: string, item: Item) => void;
+  createItem: (item: Item) => void;
 }
 
 export default function D3Content({ category, createItem }: Props) {
@@ -98,8 +98,8 @@ export default function D3Content({ category, createItem }: Props) {
             idAddon = category.items.length + 1;
           }
 
-          createItem(category.id, {
-            id: category.id + idAddon,
+          createItem({
+            id: category.id + category.name[0].toUpperCase() + idAddon,
             x: currentRect.x,
             y: currentRect.y,
             width: currentRect.width,

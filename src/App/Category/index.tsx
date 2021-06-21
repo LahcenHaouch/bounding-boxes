@@ -7,6 +7,7 @@ import ColorAvatar from "../../components/ColorAvatar";
 
 import { Category as CategoryType } from "../types";
 import styles from "./styles";
+import Item from "./Item";
 
 interface Props {
   category: CategoryType;
@@ -41,12 +42,13 @@ export default function Category({ category, selectCategory, checked }: Props) {
       </div>
       <Collapse in={open} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
-          <ListItem button>
-            <ListItemIcon>
-              <StarBorder />
-            </ListItemIcon>
-            <ListItemText primary="Starred" />
-          </ListItem>
+          {items?.length
+            ? items.map((item) => (
+                <ListItem>
+                  <Item color={color} item={item}></Item>
+                </ListItem>
+              ))
+            : null}
         </List>
       </Collapse>
     </div>

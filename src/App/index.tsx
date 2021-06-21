@@ -52,12 +52,28 @@ export default function App() {
       })
     );
   };
+  const deleteItem = (itemId: string) => {
+    const categoryId = itemId.substring(0, itemId.length - 2);
+
+    setCategories((prevCategories) =>
+      prevCategories.map((category) => {
+        if (category.id === categoryId) {
+          if (category.items) {
+            category.items = category.items.filter(({ id }) => id !== itemId);
+          }
+        }
+        return category;
+      })
+    );
+  };
 
   const toDisplayCategories = categories.filter((category) =>
     category.name.toLocaleLowerCase().includes(searchText.toLocaleLowerCase())
   );
 
   const selectedCategory = categories.find(({ id }) => id === selectedCategoryId);
+
+  console.log({ selectedCategory });
 
   return (
     <div className={classes.root}>
@@ -90,6 +106,7 @@ export default function App() {
             key={category.id}
             category={category}
             selectCategory={selectCategory}
+            deleteItem={deleteItem}
           />
         ))}
         <div className={classes.createButton}>

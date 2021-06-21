@@ -1,6 +1,6 @@
-import { Collapse, List, ListItem, ListItemIcon, ListItemText, FormControlLabel, Radio } from "@material-ui/core";
+import { Collapse, List, ListItem, FormControlLabel, Radio } from "@material-ui/core";
 import { useState } from "react";
-import { StarBorder, ExpandLess, ExpandMore } from "@material-ui/icons";
+import { ExpandLess, ExpandMore } from "@material-ui/icons";
 import { makeStyles } from "@material-ui/core/styles";
 
 import ColorAvatar from "../../components/ColorAvatar";
@@ -12,12 +12,13 @@ import Item from "./Item";
 interface Props {
   category: CategoryType;
   selectCategory: (id: string) => void;
+  deleteItem: (itemId: string) => void;
   checked: boolean;
 }
 
 const useStyles = makeStyles(styles);
 
-export default function Category({ category, selectCategory, checked }: Props) {
+export default function Category({ category, selectCategory, deleteItem, checked }: Props) {
   const classes = useStyles();
   const { id, name, color, items } = category;
 
@@ -45,7 +46,7 @@ export default function Category({ category, selectCategory, checked }: Props) {
           {items?.length
             ? items.map((item) => (
                 <ListItem>
-                  <Item color={color} item={item}></Item>
+                  <Item color={color} item={item} deleteItem={deleteItem}></Item>
                 </ListItem>
               ))
             : null}

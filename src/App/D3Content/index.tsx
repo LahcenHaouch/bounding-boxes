@@ -112,7 +112,7 @@ export default function D3Content({ category, createItem }: Props) {
 
       elements.remove();
     };
-  }, [category]);
+  }, [category, createItem]);
 
   return <div ref={canvasRef} />;
 }

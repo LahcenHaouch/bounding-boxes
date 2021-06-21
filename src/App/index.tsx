@@ -1,10 +1,10 @@
-import { useState, useEffect, useRef } from "react";
+import { useState } from "react";
 import { makeStyles } from "@material-ui/core";
 import { Fab, InputBase } from "@material-ui/core";
 import { Add as AddIcon, Search as SearchIcon } from "@material-ui/icons";
 
 import CreateCategoryModal from "./CreateCategoryModal";
-import { Category as CategoryType } from "./types";
+import { Category as CategoryType, Item } from "./types";
 import styles from "./styles";
 import Category from "./Category";
 import D3Content from "./D3Content";
@@ -34,8 +34,24 @@ export default function App() {
 
     setCategories((prevCategories) => [...prevCategories, category]);
   };
-
   const selectCategory = (id: string) => setSelectedCategoryId(id);
+  const createItem = (categoryId: string, item: Item) => {
+    setCategories((prevCategories) =>
+      prevCategories.map((category) => {
+        if (category.id === categoryId) {
+          if (!category.items) {
+            category.items = [item];
+          } else {
+            if (category.items.includes(item)) {
+            } else {
+              category.items.push(item);
+            }
+          }
+        }
+        return category;
+      })
+    );
+  };
 
   const toDisplayCategories = categories.filter((category) =>
     category.name.toLocaleLowerCase().includes(searchText.toLocaleLowerCase())
@@ -43,10 +59,12 @@ export default function App() {
 
   const selectedCategory = categories.find(({ id }) => id === selectedCategoryId);
 
+  console.log(selectedCategory?.items);
+
   return (
     <div className={classes.root}>
       <div className={classes.content}>
-        <D3Content category={selectedCategory} />
+        <D3Content category={selectedCategory} createItem={createItem} />
         {createCategoryModalStatus && (
           <CreateCategoryModal
             status={createCategoryModalStatus}

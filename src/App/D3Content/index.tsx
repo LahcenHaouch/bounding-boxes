@@ -2,13 +2,14 @@ import { useRef, useEffect } from "react";
 import * as d3 from "d3";
 
 import traffic from "../../assets/traffic.jpg";
-import { Category } from "../types";
+import { Category, Item } from "../types";
 
 interface Props {
   category?: Category;
+  createItem: (categoryId: string, item: Item) => void;
 }
 
-export default function D3Content({ category }: Props) {
+export default function D3Content({ category, createItem }: Props) {
   const canvasRef = useRef(null);
 
   useEffect(() => {
@@ -34,16 +35,32 @@ export default function D3Content({ category }: Props) {
       return;
     }
 
+    category.items?.forEach(({ x, y, width, height }) =>
+      svg
+        .append("g")
+        .append("rect")
+        .attr("x", x)
+        .attr("y", y)
+        .attr("width", width)
+        .attr("height", height)
+        .attr("class", "rect-main")
+        .style("stroke", category.color)
+    );
+
     const currentRect: any = {
       r: null,
       x0: null,
       y0: null,
+      x: null,
+      y: null,
+      width: null,
+      height: null,
     };
 
     svg.call(
       d3
         .drag()
-        .on("start", (event, d) => {
+        .on("start", (event) => {
           const { x, y } = event;
 
           currentRect.x0 = x;
@@ -56,18 +73,39 @@ export default function D3Content({ category }: Props) {
             .attr("y", currentRect.y0)
             .attr("width", 1)
             .attr("height", 1)
-            .attr("class", "rect-main");
+            .attr("class", "rect-main")
+            .style("stroke", category.color);
         })
-        .on("drag", (event, d) => {
+        .on("drag", (event) => {
           const { x, y } = event;
 
-          currentRect.r
-            .attr("x", Math.min(currentRect.x0, x))
-            .attr("y", Math.min(currentRect.y0, y))
-            .attr("width", Math.abs(currentRect.x0 - x))
-            .attr("height", Math.abs(currentRect.y0 - y));
+          const calculatedX = Math.min(currentRect.x0, x);
+          const calculatedY = Math.min(currentRect.y0, y);
+          const width = Math.abs(currentRect.x0 - x);
+          const height = Math.abs(currentRect.y0 - y);
+
+          currentRect.x = calculatedX;
+          currentRect.y = calculatedY;
+          currentRect.width = width;
+          currentRect.height = height;
+
+          currentRect.r.attr("x", calculatedX).attr("y", calculatedY).attr("width", width).attr("height", height);
         })
-        .on("end", (event, d) => console.log(currentRect)) as any
+        .on("end", (event) => {
+          let idAddon = 1;
+
+          if (category.items?.length) {
+            idAddon = category.items.length + 1;
+          }
+
+          createItem(category.id, {
+            id: category.id + idAddon,
+            x: currentRect.x,
+            y: currentRect.y,
+            width: currentRect.width,
+            height: currentRect.height,
+          });
+        }) as any
     );
     return () => {
       const elements = d3.select(canvasRef.current).selectAll("*");

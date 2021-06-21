@@ -10,16 +10,17 @@ import styles from "./styles";
 
 interface Props {
   category: CategoryType;
+  selectCategory: (id: string) => void;
+  checked: boolean;
 }
 
 const useStyles = makeStyles(styles);
 
-export default function Category({ category }: Props) {
+export default function Category({ category, selectCategory, checked }: Props) {
   const classes = useStyles();
-  const { name, color, items } = category;
+  const { id, name, color, items } = category;
 
   const [open, setOpen] = useState<boolean>(false);
-  const [value, setValue] = useState<boolean>(false);
 
   const handleExpand = () => {
     setOpen((prevState) => !prevState);
@@ -28,7 +29,7 @@ export default function Category({ category }: Props) {
   return (
     <div>
       <div className={classes.category}>
-        <FormControlLabel control={<Radio checked={value} onClick={() => setValue((prev) => !prev)} />} label={name} />
+        <FormControlLabel control={<Radio checked={checked} onClick={() => selectCategory(id)} />} label={name} />
         <div className={classes.colorExpandContainer}>
           <ColorAvatar color={color} />
           {open ? (

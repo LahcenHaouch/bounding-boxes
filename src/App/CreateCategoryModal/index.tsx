@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { HexColorPicker } from "react-colorful";
+import { v4 as uuidv4 } from "uuid";
 
 import { Button, TextField, Dialog, DialogActions, DialogContent, DialogTitle, makeStyles } from "@material-ui/core";
 
@@ -28,7 +29,7 @@ export default function CreateCategoryModal({ status, closeModal, createCategory
       return;
     }
 
-    createCategory({ name, color });
+    createCategory({ id: uuidv4(), name, color });
     closeModal();
   };
 

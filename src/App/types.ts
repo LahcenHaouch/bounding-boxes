@@ -12,4 +12,5 @@ export interface Item {
   y: string;
   width: string;
   height: string;
+  display: boolean;
 }

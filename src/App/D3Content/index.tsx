@@ -36,17 +36,19 @@ export default function D3Content({ category, createItem }: Props) {
       return;
     }
 
-    category.items?.forEach(({ x, y, width, height }) =>
-      svg
-        .append("g")
-        .append("rect")
-        .attr("x", x)
-        .attr("y", y)
-        .attr("width", width)
-        .attr("height", height)
-        .attr("class", "rect-main")
-        .style("stroke", category.color)
-    );
+    category.items
+      ?.filter((item) => item.display)
+      .forEach(({ x, y, width, height }) =>
+        svg
+          .append("g")
+          .append("rect")
+          .attr("x", x)
+          .attr("y", y)
+          .attr("width", width)
+          .attr("height", height)
+          .attr("class", "rect-main")
+          .style("stroke", category.color)
+      );
 
     const currentRect: any = {
       r: null,
@@ -106,14 +108,10 @@ export default function D3Content({ category, createItem }: Props) {
             y: currentRect.y,
             width: currentRect.width,
             height: currentRect.height,
+            display: true,
           });
         }) as any
     );
-    return () => {
-      const elements = d3.select(canvasRef.current).selectAll("*");
-
-      elements.remove();
-    };
   }, [category, createItem]);
 
   return <div ref={canvasRef} />;

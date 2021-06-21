@@ -52,7 +52,6 @@ export default function App() {
       })
     );
   };
-
   const deleteItem = (categoryId: string, itemId: string) => {
     setCategories((prevCategories) =>
       prevCategories.map((category) => {
@@ -65,12 +64,30 @@ export default function App() {
       })
     );
   };
+  const switchDisplayForItem = (categoryId: string, itemId: string, display: boolean) => {
+    setCategories((prevCategories) =>
+      prevCategories.map((category) => {
+        if (category.id === categoryId) {
+          if (category.items) {
+            category.items = category.items.map((item) => {
+              if (item.id === itemId) {
+                return {
+                  ...item,
+                  display,
+                };
+              }
+              return item;
+            });
+          }
+        }
+        return category;
+      })
+    );
+  };
 
   const toDisplayCategories = categories.filter((category) =>
     category.name.toLocaleLowerCase().includes(searchText.toLocaleLowerCase())
   );
-
-  console.log(categories);
 
   const selectedCategory = categories.find(({ id }) => id === selectedCategoryId);
 
@@ -106,6 +123,7 @@ export default function App() {
             category={category}
             selectCategory={selectCategory}
             deleteItem={deleteItem}
+            switchDisplayForitem={switchDisplayForItem}
           />
         ))}
         <div className={classes.createButton}>

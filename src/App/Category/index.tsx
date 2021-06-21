@@ -13,12 +13,13 @@ interface Props {
   category: CategoryType;
   selectCategory: (id: string) => void;
   deleteItem: (categoryId: string, itemId: string) => void;
+  switchDisplayForitem: (categoryId: string, itemId: string, display: boolean) => void;
   checked: boolean;
 }
 
 const useStyles = makeStyles(styles);
 
-export default function Category({ category, selectCategory, deleteItem, checked }: Props) {
+export default function Category({ category, selectCategory, deleteItem, switchDisplayForitem, checked }: Props) {
   const classes = useStyles();
   const { id, name, color, items } = category;
 
@@ -46,7 +47,13 @@ export default function Category({ category, selectCategory, deleteItem, checked
           {items?.length
             ? items.map((item) => (
                 <ListItem key={item.id}>
-                  <Item color={color} item={item} categoryId={id} deleteItem={deleteItem}></Item>
+                  <Item
+                    color={color}
+                    item={item}
+                    categoryId={id}
+                    deleteItem={deleteItem}
+                    switchDisplayForItem={switchDisplayForitem}
+                  />{" "}
                 </ListItem>
               ))
             : null}

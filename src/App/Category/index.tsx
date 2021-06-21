@@ -3,6 +3,8 @@ import { useState } from "react";
 import { StarBorder, ExpandLess, ExpandMore } from "@material-ui/icons";
 import { makeStyles } from "@material-ui/core/styles";
 
+import ColorAvatar from "../../components/ColorAvatar";
+
 import { Category as CategoryType } from "../types";
 import styles from "./styles";
 
@@ -26,13 +28,9 @@ export default function Category({ category }: Props) {
   return (
     <div>
       <div className={classes.category}>
-        <FormControlLabel
-          className={classes.formLabel}
-          control={<Radio checked={value} onClick={() => setValue((prev) => !prev)} />}
-          label={name}
-        />
+        <FormControlLabel control={<Radio checked={value} onClick={() => setValue((prev) => !prev)} />} label={name} />
         <div className={classes.colorExpandContainer}>
-          <div className={classes.colorSelected} style={{ backgroundColor: color }}></div>
+          <ColorAvatar color={color} />
           {open ? (
             <ExpandLess className={classes.expand} onClick={handleExpand} />
           ) : (

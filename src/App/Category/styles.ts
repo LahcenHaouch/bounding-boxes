@@ -18,9 +18,6 @@ const styles = (theme: Theme) =>
       height: "20px",
       width: "20px",
     },
-    formLabel: {
-      // marginLeft: theme.spacing(2),
-    },
     expand: {
       cursor: "pointer",
     },

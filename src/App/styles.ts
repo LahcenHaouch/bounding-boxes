@@ -35,6 +35,7 @@ const styles = (theme: Theme) =>
     image: {
       display: "block",
       maxWidth: "100%",
+      maxHeight: "100%",
     },
   });
 

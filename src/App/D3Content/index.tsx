@@ -1,5 +1,6 @@
 import { useRef, useEffect } from "react";
 import * as d3 from "d3";
+import { v4 as uuidv4 } from "uuid";
 
 import traffic from "../../assets/traffic.jpg";
 import { Category, Item } from "../types";
@@ -99,7 +100,8 @@ export default function D3Content({ category, createItem }: Props) {
           }
 
           createItem({
-            id: category.id + category.name[0].toUpperCase() + idAddon,
+            id: uuidv4(),
+            name: category.name[0].toUpperCase() + idAddon,
             x: currentRect.x,
             y: currentRect.y,
             width: currentRect.width,

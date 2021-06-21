@@ -8,21 +8,20 @@ import styles from "./styles";
 interface Props {
   color: string;
   item: ItemType;
-  deleteItem: (itemId: string) => void;
+  categoryId: string;
+  deleteItem: (categoryId: string, itemId: string) => void;
 }
 
 const useStyles = makeStyles(styles);
 
-export default function Item({ color, item, deleteItem }: Props) {
+export default function Item({ color, item, categoryId, deleteItem }: Props) {
   const classes = useStyles();
-
-  const name = item.id.substring(item.id.length - 2);
 
   return (
     <div className={classes.root}>
-      <ColorAvatar color={color} text={name} />
+      <ColorAvatar color={color} text={item.name} />
       <Visibility className={classes.visibility} />
-      <Delete className={classes.delete} onClick={() => deleteItem(item.id)} />
+      <Delete className={classes.delete} onClick={() => deleteItem(categoryId, item.id)} />
     </div>
   );
 }

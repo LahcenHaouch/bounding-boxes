@@ -12,7 +12,7 @@ import Item from "./Item";
 interface Props {
   category: CategoryType;
   selectCategory: (id: string) => void;
-  deleteItem: (itemId: string) => void;
+  deleteItem: (categoryId: string, itemId: string) => void;
   checked: boolean;
 }
 
@@ -45,8 +45,8 @@ export default function Category({ category, selectCategory, deleteItem, checked
         <List component="div" disablePadding>
           {items?.length
             ? items.map((item) => (
-                <ListItem>
-                  <Item color={color} item={item} deleteItem={deleteItem}></Item>
+                <ListItem key={item.id}>
+                  <Item color={color} item={item} categoryId={id} deleteItem={deleteItem}></Item>
                 </ListItem>
               ))
             : null}

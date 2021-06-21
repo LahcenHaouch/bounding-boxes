@@ -7,6 +7,7 @@ export interface Category {
 
 export interface Item {
   id: string;
+  name: string;
   x: string;
   y: string;
   width: string;

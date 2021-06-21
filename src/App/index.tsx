@@ -52,9 +52,8 @@ export default function App() {
       })
     );
   };
-  const deleteItem = (itemId: string) => {
-    const categoryId = itemId.substring(0, itemId.length - 2);
 
+  const deleteItem = (categoryId: string, itemId: string) => {
     setCategories((prevCategories) =>
       prevCategories.map((category) => {
         if (category.id === categoryId) {
@@ -71,9 +70,9 @@ export default function App() {
     category.name.toLocaleLowerCase().includes(searchText.toLocaleLowerCase())
   );
 
-  const selectedCategory = categories.find(({ id }) => id === selectedCategoryId);
+  console.log(categories);
 
-  console.log({ selectedCategory });
+  const selectedCategory = categories.find(({ id }) => id === selectedCategoryId);
 
   return (
     <div className={classes.root}>

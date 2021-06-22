@@ -37,6 +37,11 @@ const styles = (theme: Theme) =>
       maxWidth: "100%",
       maxHeight: "100%",
     },
+    export: {
+      position: "absolute",
+      top: "30px",
+      right: "300px",
+    },
   });
 
 export default styles;

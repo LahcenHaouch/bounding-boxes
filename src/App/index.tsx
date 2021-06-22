@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { makeStyles } from "@material-ui/core";
 import { Fab, InputBase } from "@material-ui/core";
-import { Add as AddIcon, Search as SearchIcon } from "@material-ui/icons";
+import { Add as AddIcon, Search as SearchIcon, GetApp as GetAppIcon } from "@material-ui/icons";
 
 import CreateCategoryModal from "./CreateCategoryModal";
+import ExportModal from "./ExportModal";
 import { Category as CategoryType, Item } from "./types";
 import styles from "./styles";
 import Category from "./Category";
@@ -18,13 +19,20 @@ export default function App() {
   const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>(null);
   const [searchText, setSearchText] = useState<string>("");
   const [createCategoryModalStatus, setCreateCategoryModalStatus] = useState<boolean>(false);
+  const [exportModalStatus, setExportModalStatus] = useState<boolean>(false);
 
   const openCreateCategoryModal = () => {
     setCreateCategoryModalStatus(true);
   };
-
   const closeCreateCategoryModal = () => {
     setCreateCategoryModalStatus(false);
+  };
+
+  const openExportModal = () => {
+    setExportModalStatus(true);
+  };
+  const closeExportModal = () => {
+    setExportModalStatus(false);
   };
 
   const createCategory = (category: CategoryType) => {
@@ -94,6 +102,11 @@ export default function App() {
   return (
     <div className={classes.root}>
       <div className={classes.content}>
+        {categories.length >= 1 ? (
+          <Fab className={classes.export} color="primary" aria-label="add" onClick={openExportModal}>
+            <GetAppIcon />
+          </Fab>
+        ) : null}
         <D3Content category={selectedCategory} createItem={createItem} />
         {createCategoryModalStatus && (
           <CreateCategoryModal
@@ -101,6 +114,9 @@ export default function App() {
             closeModal={closeCreateCategoryModal}
             createCategory={createCategory}
           />
+        )}
+        {exportModalStatus && (
+          <ExportModal status={exportModalStatus} closeModal={closeExportModal} categories={categories} />
         )}
       </div>
       <div className={classes.sideBar}>

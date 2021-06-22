@@ -4,6 +4,7 @@ import { v4 as uuidv4 } from "uuid";
 
 import traffic from "../../assets/traffic.jpg";
 import { Category, Item } from "../types";
+import { INITIAL_DIMENSIONS } from "../utils";
 
 interface Props {
   category?: Category;
@@ -12,6 +13,8 @@ interface Props {
 
 export default function D3Content({ category, createItem }: Props) {
   const canvasRef = useRef(null);
+
+  const [initialWidth, initialHeight] = INITIAL_DIMENSIONS;
 
   useEffect(() => {
     const canvas = d3.select(canvasRef.current);
@@ -27,9 +30,8 @@ export default function D3Content({ category, createItem }: Props) {
 
     const svg = canvas
       .append("svg")
-      .attr("height", 500)
-      // .attr("width", node.getBoundingClientRect().width);
-      .attr("width", 500)
+      .attr("height", initialHeight)
+      .attr("width", initialWidth)
       .style("background", `url(${traffic})`);
 
     if (!category) {
@@ -112,7 +114,7 @@ export default function D3Content({ category, createItem }: Props) {
           });
         }) as any
     );
-  }, [category, createItem]);
+  }, [category, createItem, initialHeight, initialWidth]);
 
   return <div ref={canvasRef} />;
 }

@@ -14,3 +14,33 @@ export interface Item {
   height: string;
   display: boolean;
 }
+
+export interface ImageObjectDetection {
+  jsonResponse: {
+    OBJECT_DETECTION_JOB: {
+      annotations: BoundingPoly[];
+    };
+  };
+}
+
+interface BoundingPoly {
+  boundingPoly: BoundingPolyVertices[];
+  categories: BoundingPolyCategory[];
+  mid: string;
+  score: null;
+  type: "rectangle";
+}
+
+interface BoundingPolyCategory {
+  name: string;
+  confidence: 100;
+}
+
+export interface BoundingPolyVertices {
+  normalizedVertices: Array<Vertice>;
+}
+
+interface Vertice {
+  x: number;
+  y: number;
+}

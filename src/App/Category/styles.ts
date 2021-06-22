@@ -21,6 +21,10 @@ const styles = (theme: Theme) =>
     expand: {
       cursor: "pointer",
     },
+    delete: {
+      cursor: "pointer",
+      color: "red",
+    },
   });
 
 export default styles;

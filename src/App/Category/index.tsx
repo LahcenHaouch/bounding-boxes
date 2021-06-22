@@ -1,6 +1,6 @@
 import { Collapse, List, ListItem, FormControlLabel, Radio } from "@material-ui/core";
 import { useState } from "react";
-import { ExpandLess, ExpandMore } from "@material-ui/icons";
+import { ExpandLess, ExpandMore, Close } from "@material-ui/icons";
 import { makeStyles } from "@material-ui/core/styles";
 
 import ColorAvatar from "../../components/ColorAvatar";
@@ -12,6 +12,7 @@ import Item from "./Item";
 interface Props {
   category: CategoryType;
   selectCategory: (id: string) => void;
+  deleteCategory: (id: string) => void;
   deleteItem: (categoryId: string, itemId: string) => void;
   switchDisplayForitem: (categoryId: string, itemId: string, display: boolean) => void;
   checked: boolean;
@@ -19,7 +20,14 @@ interface Props {
 
 const useStyles = makeStyles(styles);
 
-export default function Category({ category, selectCategory, deleteItem, switchDisplayForitem, checked }: Props) {
+export default function Category({
+  category,
+  selectCategory,
+  deleteCategory,
+  deleteItem,
+  switchDisplayForitem,
+  checked,
+}: Props) {
   const classes = useStyles();
   const { id, name, color, items } = category;
 
@@ -33,6 +41,7 @@ export default function Category({ category, selectCategory, deleteItem, switchD
     <div>
       <div className={classes.category}>
         <FormControlLabel control={<Radio checked={checked} onClick={() => selectCategory(id)} />} label={name} />
+        <Close className={classes.delete} onClick={() => deleteCategory(id)} />
         <div className={classes.colorExpandContainer}>
           <ColorAvatar color={color} />
           {open ? (

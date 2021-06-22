@@ -43,6 +43,9 @@ export default function App() {
     setCategories((prevCategories) => [...prevCategories, category]);
   };
   const selectCategory = (id: string) => setSelectedCategoryId(id);
+  const deleteCategory = (id: string) =>
+    setCategories((prevCategories) => prevCategories.filter((category) => category.id !== id));
+
   const createItem = (item: Item) => {
     setCategories((prevCategories) =>
       prevCategories.map((category) => {
@@ -138,6 +141,7 @@ export default function App() {
             key={category.id}
             category={category}
             selectCategory={selectCategory}
+            deleteCategory={deleteCategory}
             deleteItem={deleteItem}
             switchDisplayForitem={switchDisplayForItem}
           />
